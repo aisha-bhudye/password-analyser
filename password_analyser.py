@@ -4,9 +4,47 @@ Mini Project - Networks and Systems Security
 Author: Aisha Bhudye - 33734353
 Date: November 2025
 """
+import os
+def load_common_passwords(filename="common_passwords.txt"):
+    common_passwords = set()
 
-def analyse_password(password):
+    if not os.path.exists(filename):
+        print(f"\n Warning: '{filename}' not found.")
+        print("Skipping common password check.\n")
+        return common_passwords
+
+    with open(filename, "r", encoding="utf-8", errors="ignore") as file:
+        for line in file:
+            password = line.strip().lower()
+            if password:
+                common_passwords.add(password)
+
+    print(f"\nLoaded {len(common_passwords)} common passwords for checking.\n")
+    return common_passwords
+
+
+def is_common_password(password, common_passwords):
+    password_lower = password.lower()
+
+    # Exact match
+    if password_lower in common_passwords:
+        return True
+
+    # Check if removing numbers matches (like Password123 → password)
+    stripped = ''.join(ch for ch in password_lower if not ch.isdigit())
+    if stripped in common_passwords:
+        return True
+
+    return False
+
+def analyse_password(password, common_passwords):
     score = 0
+    # Inside analyse_password()
+    if is_common_password(password, common_passwords):
+        print("This password is too common!")
+        print("Hackers often try these first.")
+        print("Please choose something unique.\n")
+        return
     # 1. Check length
     if len(password) < 8:
         print("Too short! Use at least 8 characters.")
@@ -106,6 +144,8 @@ def analyse_password(password):
 
 def main():
     print("   PASSWORD STRENGTH CHECKER")
+    # Load common passwords file
+    common_passwords = load_common_passwords("common_passwords.txt")
     while True:
         print("\n1. Analyze a password")
         print("2. Exit")
@@ -115,10 +155,11 @@ def main():
         if choice == "1":
             password = input("\nEnter your password: ").strip()
             if password:
-                analyse_password(password)
+                analyse_password(password, common_passwords)
             else:
                 print(" Password cannot be empty!")
         elif choice == "2":
+            print(f"Common passwords loaded: {len(common_passwords)}")
             print("\nThanks for using Password Strength Checker!")
             break
         else:
