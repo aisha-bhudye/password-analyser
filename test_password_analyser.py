@@ -1,5 +1,6 @@
 import unittest
-from password_analyser import analyse_password
+from password_checker import analyse_password
+
 
 class TestPasswordAnalyser(unittest.TestCase):
 

@@ -37,6 +37,6 @@ Provides:
 3. Run the program:
 
    ```bash
-   python password_analyser.py
+   python main.py
 
 4. To run tests = python -m unittest test_password_analyser.py
