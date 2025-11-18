@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Login System - Test Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Side: Vulnerable Form -->
+        <div class="card">
+            <div class="warning-banner">
+                ⚠️ INTENTIONALLY VULNERABLE - FOR TESTING ONLY ⚠️
+            </div>
+
+            <h1>Insecure Login System</h1>
+            <p class="subtitle">This form has NO password validation (deliberately vulnerable)</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter any username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter any password">
+                </div>
+
+                <button type="submit" class="btn">Login (No Validation)</button>
+            </form>
+
+            <div id="message" class="message"></div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="attemptCount">0</div>
+                    <div class="stat-label">Login Attempts</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="weakCount">0</div>
+                    <div class="stat-label">Weak Passwords Accepted</div>
+                </div>
+            </div>
+
+            <div class="vulnerability-list">
+                <h3>🔓 Security Vulnerabilities in This Form:</h3>
+                <ul>
+                    <li>No minimum password length requirement</li>
+                    <li>No character variety requirements</li>
+                    <li>No check against common passwords</li>
+                    <li>No pattern detection</li>
+                    <li>Accepts literally ANY password</li>
+                    <li>No rate limiting</li>
+                    <li>No account lockout</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Side: Information Panel -->
+        <div class="card">
+            <div class="info-panel">
+                <h3>🎯 Testing Purpose</h3>
+                <p>This deliberately vulnerable application demonstrates what happens when websites implement NO password validation.</p>
+                <p><strong>Use Case:</strong> Test passwords from your analyzer against this form to show the real-world impact of weak password policies.</p>
+            </div>
+
+            <div class="test-passwords">
+                <h4>Try These Weak Passwords:</h4>
+                <code>password</code>
+                <code>123456</code>
+                <code>qwerty</code>
+                <code>abc</code>
+                <code>1</code>
+                <p style="margin-top: 15px; color: #666; font-size: 13px;">
+                    ✅ All of these will be accepted (proving the vulnerability)<br>
+                    ❌ Your password analyzer should reject all of these
+                </p>
+            </div>
+
+            <h3 style="margin-top: 25px; color: #333;">Testing Procedure:</h3>
+            <ol style="padding-left: 20px; color: #666; line-height: 1.8;">
+                <li>Test a weak password in this form → It accepts it ✅</li>
+                <li>Run the same password through your analyzer → It rejects it ❌</li>
+                <li>Document the comparison in your logbook</li>
+                <li>Show this demonstrates why validation matters</li>
+            </ol>
+
+            <div class="code-block">
+# Test with your Python analyzer:
+test_passwords = [
+    "password",
+    "123456", 
+    "qwerty",
+    "abc",
+    "1"
+]
+
+for pwd in test_passwords:
+    result = analyse_password(pwd)
+    print(f"{pwd}: {result['score']}/100")
+            </div>
+
+            <div class="disclaimer">
+                <strong>⚠️ Disclaimer:</strong> This is a test application for educational purposes only. Never deploy applications without proper password validation in production environments.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let attemptCount = 0;
+        let weakCount = 0;
+
+        // List of commonly weak passwords for detection
+        const weakPasswords = [
+            'password', '123456', '12345678', 'qwerty', 'abc123',
+            '111111', '123123', 'admin', 'letmein', 'welcome',
+            '1234', '12345', 'password1', '123', 'pass'
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            attemptCount++;
+            document.getElementById('attemptCount').textContent = attemptCount;
+
+            // Check if password is in weak list
+            if (weakPasswords.includes(password.toLowerCase())) {
+                weakCount++;
+                document.getElementById('weakCount').textContent = weakCount;
+            }
+
+            // NO VALIDATION - accepts anything!
+            if (username && password) {
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = `
+                    <strong>✅ Login "Successful"!</strong><br>
+                    <small>Username: ${username}</small><br>
+                    <small>Password Length: ${password.length} characters</small><br>
+                    <small>This form accepted your password without ANY validation!</small>
+                `;
+
+                // Show analysis
+                if (password.length < 8) {
+                    messageDiv.innerHTML += '<br><br><strong>⚠️ Password is TOO SHORT</strong> (less than 8 characters)';
+                }
+                if (weakPasswords.includes(password.toLowerCase())) {
+                    messageDiv.innerHTML += '<br><strong>🚨 This is a COMMON WEAK PASSWORD</strong>';
+                }
+                if (!/[A-Z]/.test(password)) {
+                    messageDiv.innerHTML += '<br><strong>⚠️ No uppercase letters</strong>';
+                }
+                if (!/[0-9]/.test(password)) {
+                    messageDiv.innerHTML += '<br><strong>⚠️ No numbers</strong>';
+                }
+                if (!/[!@#$%^&*]/.test(password)) {
+                    messageDiv.innerHTML += '<br><strong>⚠️ No special characters</strong>';
+                }
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = '<strong>❌ Error:</strong> Please enter both username and password';
+            }
+        });
+    </script>
+</body>
+</html>
