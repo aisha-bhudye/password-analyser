@@ -1,5 +1,6 @@
 from common_passwords import is_common_password
-
+from entropy import calculate_entropy
+from entropy import interpret_entropy
 def analyse_password(password, common_passwords):
     print("\nChecking your password...\n")
 
@@ -93,6 +94,16 @@ def analyse_password(password, common_passwords):
 
     print("Password Strength:", strength)
     print("Score:", score, "/ 100")
+    
+    # Calculate entropy
+    entropy = calculate_entropy(password)
+    entropy_label, entropy_explanation = interpret_entropy(entropy)
+
+    # Display it
+    print(f"\n ENTROPY ANALYSIS:")
+    print(f"Entropy: {entropy} bits")
+    print(f"Rating: {entropy_label}")
+    print(f"Crack Time: {entropy_explanation}")
 
     # 6. Tips
     if score < 70:
@@ -105,3 +116,5 @@ def analyse_password(password, common_passwords):
         print("\nExcellent! Your password looks strong and secure.")
 
     return {"score": score, "strength": strength}
+
+
