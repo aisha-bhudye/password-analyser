@@ -1,45 +1,18 @@
-import string
-import random
+
+import string, random
 from password_checker import analyse_password
+
 def generate_random_password(length=16):
-    if length < 8:
-        length = 8
-    elif length > 32:
-        length = 32
+    length = max(8, min(length, 32))
+    chars = string.ascii_letters + string.digits + "!@#$%^&*()_+-=[]{}|"
+    return "".join(random.choice(chars) for _ in range(length))
 
-    letters = string.ascii_letters
-    numbers = string.digits
-    symbols = "!@#$%^&*()_+-=[]{}|"
-
-    all_characters = letters + numbers + symbols
-    password = ""
-
-    for i in range(length):
-        random_character = random.choice(all_characters)
-        password += random_character
-
-    return password
-
-
-# Password Generator Menu
 def generate_password_menu(common_passwords):
     print("\nPASSWORD GENERATOR")
-    print("1. Random password (very strong)")
-    print("2. Go back")
-
-    choice = input("\nEnter your choice (1-3): ").strip()
-
+    choice = input("1. Random password\n2. Go back\nEnter choice: ").strip()
     if choice == "1":
         length = input("Enter length (default 16): ").strip()
-
-        if length.isdigit():
-            length = int(length)
-        else:
-            length = 16
-
+        length = int(length) if length.isdigit() else 16
         password = generate_random_password(length)
-        print("\nYour new random password:\n")
-        print(password)
+        print("\nYour new password:", password)
         analyse_password(password, common_passwords)
-    else:
-        print("Returning to main menu...")
