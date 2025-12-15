@@ -14,12 +14,11 @@ Features:
 from ollama import chat
 
 
-MODEL_NAME = "smollm2:1.7b"   # Change this to whichever model you pulled in the lab
+MODEL_NAME = "smollm2:1.7b"   
 
 
-# ----------------------------------------------------------
+
 # 1. LLM EXPLAINS WHY A PASSWORD IS WEAK/STRONG
-# ----------------------------------------------------------
 def llm_explain_password(password: str) -> str:
     """
     Uses the local LLM to produce a safe explanation of password quality.
@@ -41,9 +40,8 @@ def llm_explain_password(password: str) -> str:
     return response.message.content.strip()
 
 
-# ----------------------------------------------------------
+
 # 2. LLM DETECTS PATTERNS ATTACKERS EXPLOIT
-# ----------------------------------------------------------
 def llm_detect_patterns(password: str) -> str:
     """
     Asks the LLM to identify patterns like:
@@ -68,9 +66,7 @@ def llm_detect_patterns(password: str) -> str:
     return response.message.content.strip()
 
 
-# ----------------------------------------------------------
 # 3. LLM GENERATES A STRONG PASSWORD
-# ----------------------------------------------------------
 def llm_generate_password(length: int = 16) -> str:
     """
     Uses the LLM to generate a strong password.
@@ -106,9 +102,7 @@ def llm_generate_password(length: int = 16) -> str:
     return pwd.replace('"', "").replace(" ", "").strip()
 
 
-# ----------------------------------------------------------
-# OPTIONAL: DEMO MENU FOR TESTING THE LLM MODULE
-# ----------------------------------------------------------
+#  DEMO MENU FOR TESTING THE LLM MODULE
 def demo():
     print("\n=== AI LLM MODULE DEMO ===")
     print("1. Explain a password")
@@ -144,8 +138,6 @@ def demo():
 
 
 
-# ----------------------------------------------------------
 # Run demo when executed directly
-# ----------------------------------------------------------
 if __name__ == "__main__":
     demo()
