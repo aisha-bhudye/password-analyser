@@ -4,13 +4,15 @@ from password_checker import analyse_password
 from password_generator import generate_password_menu
 from user_system import register_user, authenticate_user
 
-# === IMPORT NEW AI MODULE ===
+# === IMPORT AI MODULE ===
 from ai_llm_integration import (
     llm_explain_password,
     llm_detect_patterns,
     llm_generate_password
 )
 
+# === IMPORT DECRYPTION MODULE ===
+from secure_logging import decrypt_log   
 
 def main():
     print("PASSWORD SECURITY SYSTEM")
@@ -22,14 +24,13 @@ def main():
         print("2. Generate a new password")
         print("3. Register a new user")
         print("4. Login")
-        print("5. AI Tools (LLM Features)")    
-        print("6. Exit")
+        print("5. AI Tools (LLM Features)")
+        print("6. Decrypt Secure Log")        
+        print("7. Exit")
 
-        choice = input("\nEnter your choice (1-6): ").strip()
+        choice = input("\nEnter your choice (1-7): ").strip()
 
-        # ----------------------------------------------------------
         # 1. Password analysis
-        # ----------------------------------------------------------
         if choice == "1":
             password = input("\nEnter a password to check: ").strip()
 
@@ -45,32 +46,24 @@ def main():
             else:
                 print("Password cannot be empty.")
 
-        # ----------------------------------------------------------
         # 2. Password generator menu
-        # ----------------------------------------------------------
         elif choice == "2":
             generate_password_menu(common_passwords)
 
-        # ----------------------------------------------------------
         # 3. Register user
-        # ----------------------------------------------------------
         elif choice == "3":
             username = input("Enter username: ").strip()
             password = input("Enter password: ").strip()
             register_user(username, password)
 
-        # ----------------------------------------------------------
-        # 4. Login with password + TOTP
-        # ----------------------------------------------------------
+        # 4. Login
         elif choice == "4":
             username = input("Enter username: ").strip()
             password = input("Enter password: ").strip()
             token = input("Enter TOTP token: ").strip()
             authenticate_user(username, password, token)
 
-        # ----------------------------------------------------------
-        # 5. AI Tools Menu 
-        # ----------------------------------------------------------
+        # 5. AI Tools
         elif choice == "5":
             print("\n=== AI TOOLS MENU ===")
             print("1. AI Explain a password")
@@ -99,15 +92,24 @@ def main():
             else:
                 print("Returning to main menu...")
 
-        # ----------------------------------------------------------
-        # 6. Exit
-        # ----------------------------------------------------------
+        # 6. Decrypt a secure encrypted log
         elif choice == "6":
+            filename = input("Enter encrypted log filename: ").strip()
+
+            try:
+                text = decrypt_log(filename)
+                print("\n=== DECRYPTED LOG CONTENT ===")
+                print(text)
+            except Exception as e:
+                print(" Error decrypting file:", e)
+
+        # 7. Exit
+        elif choice == "7":
             print("\nThanks for using Password Security System!")
             break
 
         else:
-            print("Invalid option, please enter 1-6.")
+            print("Invalid option, please enter 1-7.")
 
 
 if __name__ == "__main__":
