@@ -98,7 +98,7 @@ def llm_generate_password(length: int = 16) -> str:
 
     pwd = response.message.content.strip()
 
-    # Some models try to explain — strip whitespace and quotes
+    # strip whitespace and quotes
     return pwd.replace('"', "").replace(" ", "").strip()
 
 

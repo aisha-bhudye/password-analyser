@@ -1,7 +1,7 @@
 
 from common_passwords import is_common_password
 from entropy import calculate_entropy, interpret_entropy
-from secure_logging import encrypt_log   # 🔐 NEW
+from secure_logging import encrypt_log   
 
 def analyse_password(password, common_passwords):
     print("\nChecking your password...\n")
