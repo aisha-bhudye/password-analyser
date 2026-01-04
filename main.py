@@ -37,10 +37,10 @@ def main():
             if password != "":
                 analyse_password(password, common_passwords)
 
-                print("\n--- AI Explanation ---")
+                print("\n--- AI Explanation (NOTE: This can take a few minutes, be patient) ---")
                 print(llm_explain_password(password))
 
-                print("\n--- AI Pattern Detection ---")
+                print("\n--- AI Pattern Detection (NOTE: This can take a few minutes, be patient) ---")
                 print(llm_detect_patterns(password))
 
             else:
@@ -75,12 +75,12 @@ def main():
 
             if ai_choice == "1":
                 pwd = input("Enter password: ").strip()
-                print("\n--- AI Explanation ---")
+                print("\n--- AI Explanation (NOTE: This can take a few minutes, be patient) ---")
                 print(llm_explain_password(pwd))
 
             elif ai_choice == "2":
                 pwd = input("Enter password: ").strip()
-                print("\n--- AI Pattern Detection ---")
+                print("\n--- AI Pattern Detection (NOTE: This can take a few minutes, be patient) ---")
                 print(llm_detect_patterns(pwd))
 
             elif ai_choice == "3":

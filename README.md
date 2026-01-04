@@ -99,13 +99,13 @@ cd password-analyser
 Install dependencies using `pip`:
 
 ```bash
-pip install bcrypt pyotp qrcode cryptography
+pip install bcrypt pyotp qrcode cryptography ollama
 ```
 
 If you are using Windows and `pip` is not recognised:
 
 ```bash
-python -m pip install bcrypt pyotp qrcode cryptography
+python -m pip install bcrypt pyotp qrcode cryptography ollama
 ```
 
 ---
